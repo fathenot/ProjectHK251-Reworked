@@ -34,7 +34,7 @@ namespace ProjectHK251_Reworked.Application
             }
         }
 
-        public async Task ImportToWarehouse(ImportRequest request, DbSession session)
+        public async Task ImportToWarehouse(ImportRequest request, DbSession session, string requestId)
         {
             if (string.IsNullOrWhiteSpace(request.ReferenceNo))
                 throw new BusinessException("ReferenceNo is required.");
@@ -42,7 +42,8 @@ namespace ProjectHK251_Reworked.Application
             if (request.Items == null || request.Items.Count == 0)
                 throw new BusinessException("Items must not be empty.");
 
-            var requestId = Guid.NewGuid().ToString();
+            if (string.IsNullOrWhiteSpace(requestId))
+                throw new BusinessException("RequestId is required.");
 
             foreach (var item in request.Items)
             {
