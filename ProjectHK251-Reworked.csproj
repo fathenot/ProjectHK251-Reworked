@@ -15,10 +15,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.12" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.12" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.12" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.4" />
     <PackageReference Include="Microsoft.Identity.Web" Version="3.0.0" />
     <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
-    <PackageReference Include="MySqlConnector" Version="2.3.7" />
   </ItemGroup>
 
   <ItemGroup>
