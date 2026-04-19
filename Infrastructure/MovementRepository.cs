@@ -1,14 +1,14 @@
 using Dapper;
-using MySqlConnector;
+using Microsoft.Data.SqlClient;
 using ProjectHK251_Reworked.Domain;
 
 namespace ProjectHK251_Reworked.Infrastructure
 {
     public class MovementRepository
     {
-        private readonly MySqlConnection _conn;
+        private readonly SqlConnection _conn;
 
-        public MovementRepository(MySqlConnection conn)
+        public MovementRepository(SqlConnection conn)
         {
             _conn = conn;
         }

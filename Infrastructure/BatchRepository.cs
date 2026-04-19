@@ -1,14 +1,14 @@
 using Dapper;
-using MySqlConnector;
+using Microsoft.Data.SqlClient;
 using ProjectHK251_Reworked.Domain;
 
 namespace ProjectHK251_Reworked.Infrastructure
 {
     public sealed class BatchRepository
     {
-        private readonly MySqlConnection _conn;
+        private readonly SqlConnection _conn;
 
-        public BatchRepository(MySqlConnection conn)
+        public BatchRepository(SqlConnection conn)
         {
             _conn = conn;
         }

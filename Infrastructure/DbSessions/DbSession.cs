@@ -1,17 +1,17 @@
 using System.Data;
-using MySqlConnector;
+using Microsoft.Data.SqlClient;
 
 public sealed class DbSession : IAsyncDisposable
 {
-    private readonly MySqlConnection _connection;
-    private MySqlTransaction? _transaction;
+    private readonly SqlConnection _connection;
+    private SqlTransaction? _transaction;
 
-    public MySqlConnection Connection => _connection;
-    public MySqlTransaction? Transaction => _transaction;
+    public SqlConnection Connection => _connection;
+    public SqlTransaction? Transaction => _transaction;
 
     public DbSession(string connectionString)
     {
-        _connection = new MySqlConnection(connectionString);
+        _connection = new SqlConnection(connectionString);
     }
 
     public async Task OpenAsync()
@@ -23,7 +23,7 @@ public sealed class DbSession : IAsyncDisposable
     public async Task BeginTransactionAsync()
     {
         await OpenAsync();
-        _transaction ??= (MySqlTransaction)await _connection.BeginTransactionAsync();
+        _transaction ??= (SqlTransaction)await _connection.BeginTransactionAsync();
     }
 
     public async Task CommitAsync()
@@ -59,6 +59,6 @@ public sealed class DbSession : IAsyncDisposable
             await _transaction.RollbackAsync();
             await _transaction.DisposeAsync();
         }
-        await _connection.CloseAsync();
+        _connection.Close();
     }
 }

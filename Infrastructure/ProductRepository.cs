@@ -1,13 +1,13 @@
 using Dapper;
-using MySqlConnector;
+using Microsoft.Data.SqlClient;
 using ProjectHK251_Reworked.Domain;
 
 namespace ProjectHK251_Reworked.Infrastructure
 {
     public class ProductRepository
     {
-        private readonly MySqlConnection _connection;
-        public ProductRepository(MySqlConnection connection) { _connection = connection; }
+        private readonly SqlConnection _connection;
+        public ProductRepository(SqlConnection connection) { _connection = connection; }
 
         public async Task<Product?> SearchById(long id, DbSession session)
         {
