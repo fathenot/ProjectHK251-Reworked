@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjectHK251_Reworked.Application;
 using ProjectHK251_Reworked.Domain.DataTransferObj;
-using ProjectHK251_Reworked.Domain.AppException;
 using ProjectHK251_Reworked.Infrastructure;
 using ProjectHK251_Reworked.Infrastructure.DbSessions;
 
@@ -21,6 +20,10 @@ namespace ProjectHK251_Reworked.Api
         [HttpPost]
         public async Task<IActionResult> Export([FromBody] ExportRequest request)
         {
+            var requestId = string.IsNullOrWhiteSpace(request.RequestId)
+                ? Guid.NewGuid().ToString()
+                : request.RequestId!;
+
             await using var session = _dbSessionFactory.Create();
             await session.BeginTransactionAsync();
 
@@ -33,15 +36,15 @@ namespace ProjectHK251_Reworked.Api
                 var movementRepo = new MovementRepository(connection);
 
                 var service = new ExportService(productRepo, batchRepo, movementRepo);
-                await service.ExportFromWarehouse(request, session);
+                await service.ExportFromWarehouse(request, session, requestId);
 
                 await session.CommitAsync();
-                return Ok(new { message = "Export completed" });
+                return Ok(new { message = "Export completed", requestId });
             }
             catch (Exception ex)
             {
                 await session.RollbackAsync();
-                return BadRequest(new { error = ex.Message });
+                return BadRequest(new { error = ex.Message, requestId });
             }
         }
     }

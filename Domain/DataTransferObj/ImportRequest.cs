@@ -1,9 +1,10 @@
-﻿namespace ProjectHK251_Reworked.Domain.DataTransferObj
+namespace ProjectHK251_Reworked.Domain.DataTransferObj
 {
     public sealed class ImportRequest
     {
-        public required string ReferenceNo { get; init; }     // mã chứng từ nhập
+        public required string ReferenceNo { get; init; }     // ma chung tu nhap
         public DateTime ImportDate { get; init; }
+        public string? RequestId { get; init; }
         public required List<ImportItem> Items { get; init; }
     }
 

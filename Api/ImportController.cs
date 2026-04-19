@@ -20,6 +20,10 @@ namespace ProjectHK251_Reworked.Api
         [HttpPost]
         public async Task<IActionResult> Import([FromBody] ImportRequest request)
         {
+            var requestId = string.IsNullOrWhiteSpace(request.RequestId)
+                ? Guid.NewGuid().ToString()
+                : request.RequestId!;
+
             await using var session = _dbSessionFactory.Create();
             await session.BeginTransactionAsync();
 
@@ -32,15 +36,15 @@ namespace ProjectHK251_Reworked.Api
                 var movementRepo = new MovementRepository(connection);
 
                 var service = new ImportService(productRepo, batchRepo, movementRepo);
-                await service.ImportToWarehouse(request, session);
+                await service.ImportToWarehouse(request, session, requestId);
 
                 await session.CommitAsync();
-                return Ok(new { message = "Import completed" });
+                return Ok(new { message = "Import completed", requestId });
             }
             catch (Exception ex)
             {
                 await session.RollbackAsync();
-                return BadRequest(new { error = ex.Message });
+                return BadRequest(new { error = ex.Message, requestId });
             }
         }
     }

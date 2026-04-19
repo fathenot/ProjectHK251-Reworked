@@ -4,6 +4,7 @@ namespace ProjectHK251_Reworked.Domain.DataTransferObj
     {
         public required string ReferenceNo { get; init; }     // ma chung tu xuat
         public DateTime ExportDate { get; init; }
+        public string? RequestId { get; init; }
         public required List<ExportItem> Items { get; init; }
     }
 
